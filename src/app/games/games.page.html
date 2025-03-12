@@ -13,4 +13,41 @@
       <ion-title size="large">Jogos</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Lista de Jogos</ion-label>
+    </ion-list-header>
+    @for(game of gamesList; track game.title) {
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img [src]="game.image" />
+      </ion-thumbnail>
+      <ion-text>
+        <h2>{{ game.title }}</h2>
+        <h3><strong>Categoria: </strong> {{ game.category }} </h3>
+        <h4><strong>Lançamento: </strong> {{game.launchDate | date: 'dd/MM/yyyy' }}</h4>
+        <h4><strong>Preço: </strong> {{game.price | currency: 'BRL' }}</h4>
+        <h4><strong>Plataformas:</strong>
+        <ul>
+          @for(platform of game.platforms; track platform) {
+          <li>{{platform}}</li>
+          }
+        </ul>
+        </h4>
+      </ion-text>
+    </ion-item>
+    }
+    @empty {
+    <ion-item>Lista de jogos vazia, cadastre um novo jogo!</ion-item>
+    }
+    <!-- @if(gamesList.length === 0) {
+      <ion-item>Lista de jogos vazia, cadastre um novo jogo!</ion-item>
+    } -->
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="['new']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
