@@ -8,13 +8,16 @@ import { GamesPageRoutingModule } from './games-routing.module';
 
 import { GamesPage } from './games.page';
 import { GameFormComponent } from './game-form/game-form.component';
+import { MaskitoDirective } from '@maskito/angular';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GamesPageRoutingModule
+    GamesPageRoutingModule,
+    MaskitoDirective,
+
   ],
   declarations: [
     GamesPage,
