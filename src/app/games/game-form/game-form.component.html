@@ -11,10 +11,29 @@
   <form [formGroup]="gameForm">
     <ion-list>
       <ion-item>
-        <ion-input formControlName="name" labelPlacement="floating" label="Nome: " type="text"></ion-input>
+        <ion-input formControlName="title" labelPlacement="floating" label="Nome: " type="text"></ion-input>
+        <p>
+        @if(hasError('title', 'required')) {
+          O campo é obrigatório
+        }
+        @if(hasError('title', 'minlength')) {
+          O campo deve ter no mínimo 3 caracteres
+        }
+        @if(hasError('title', 'maxlength')) {
+          O campo deve ter no máximo 150 caracteres
+        }
+        </p>
       </ion-item>
       <ion-item>
         <ion-input formControlName="image" labelPlacement="floating" label="Logo (URL)" type="url"></ion-input>
+        <p>
+        @if(hasError('image', 'required')) {
+          O campo é obrigatório
+        }
+        @if(hasError('image', 'invalidUrl')) {
+          O campo de logo deve ser uma URL válida
+        }
+        </p>
       </ion-item>
       <ion-item>
         <ion-input formControlName="launchDate" labelPlacement="floating" label="Lançamento" [maskito]="dateMask"
@@ -28,7 +47,7 @@
         <ion-input formControlName="category" labelPlacement="floating" label="Categoria" type="text" />
       </ion-item>
       <ion-item>
-        <ion-select formControlName="platform" label="Plataformas" label-placement="floating" multiple="true">
+        <ion-select formControlName="platforms" label="Plataformas" label-placement="floating" multiple="true">
           @for(platform of platforms; track platform) {
           <ion-select-option [value]="platform">{{platform}}</ion-select-option>
           }
@@ -36,7 +55,7 @@
       </ion-item>
     </ion-list>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button [disabled]="gameForm.invalid">
+      <ion-fab-button [disabled]="gameForm.invalid" (click)="save()">
         <ion-icon name="checkmark"></ion-icon>
       </ion-fab-button>
     </ion-fab>

@@ -6,7 +6,7 @@ import { Game } from '../models/game.type';
 })
 export class GameService {
 
-  gamesList: Game[] = [
+  private gamesList: Game[] = [
     {
       title: 'Super Mario',
       category: 'plataforma',
@@ -23,8 +23,15 @@ export class GameService {
       platforms: ['Arcade', 'Minigame'],
       price: 1.0
     },
-  ]
-
+  ];
 
   constructor() { }
+
+  getList() {
+    return [...this.gamesList];
+  }
+
+  add(game: Game) {
+    this.gamesList = [...this.gamesList, game];  }
+
 }
