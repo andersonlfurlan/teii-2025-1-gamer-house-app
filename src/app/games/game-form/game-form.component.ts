@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { dateMask, priceMask, maskitoElement, parseDateMask } from 'src/app/core/constants/mask.constants';
 import { ApplicationValidators } from 'src/app/core/validators/url.validator';
 import { GameService } from '../services/game.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-form',
@@ -39,11 +39,20 @@ export class GameFormComponent implements OnInit {
     platforms: new FormControl('', Validators.required)
   });
 
-
   constructor(
     private gameService: GameService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    // this.activatedRoute.snapshot.paramMap.get('gameId');
+    const gameId = parseInt(this.activatedRoute.snapshot.params['gameId']);
+    console.log('GameID: ', gameId);
+    const game = this.gameService.getById(gameId);
+    console.log('Game: ', game);
+    if (game) {
+      this.gameForm.patchValue(game);
+    }
+  }
 
   ngOnInit() {
   }

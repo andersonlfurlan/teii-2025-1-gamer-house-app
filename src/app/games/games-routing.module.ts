@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: GameFormComponent
+  },
+  {
+    path: 'edit/:gameId',
+    component: GameFormComponent,
   }
 ];
 

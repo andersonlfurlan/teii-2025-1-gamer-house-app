@@ -38,6 +38,10 @@ export class GameService {
 
   constructor() { }
 
+  getById(gameId: number) {
+    return this.gamesList.find(g => g.id === gameId);
+  }
+
   getList() {
     return [...this.gamesList];
   }
