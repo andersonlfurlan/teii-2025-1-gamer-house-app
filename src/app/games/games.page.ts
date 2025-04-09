@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from './models/game.type';
 import { GameService } from './services/game.service';
-import { ViewDidEnter, ViewDidLeave, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
+import { AlertController, ViewDidEnter, ViewDidLeave, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 
 
 @Component({
@@ -11,14 +11,14 @@ import { ViewDidEnter, ViewDidLeave, ViewWillEnter, ViewWillLeave } from '@ionic
   standalone: false,
 })
 export class GamesPage implements OnInit, ViewWillEnter,
-ViewDidEnter, ViewWillLeave, ViewDidLeave {
+  ViewDidEnter, ViewWillLeave, ViewDidLeave {
 
   gamesList: Game[] = [];
 
   constructor(
-    private gameService: GameService
-  ) {
-  }
+    private gameService: GameService,
+    private alertController: AlertController,
+  ) { }
 
   ionViewDidLeave(): void {
     console.log('ionViewDidLeave');
@@ -34,8 +34,23 @@ ViewDidEnter, ViewWillLeave, ViewDidLeave {
     this.gamesList = this.gameService.getList();
   }
 
-  ngOnInit() {
+  ngOnInit() { }
 
+  remove(game: Game) {
+    this.alertController.create({
+      header: 'Exclusão',
+      message: `Confirma a exclusão do jogo ${game.title}?`,
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+            this.gameService.remove(game);
+            this.gamesList = this.gameService.getList();
+          }
+        },
+        'Não'
+      ]
+    }).then(alert => alert.present());
   }
 
 }

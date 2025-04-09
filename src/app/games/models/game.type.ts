@@ -1,5 +1,6 @@
 export type Game = {
-  image: string,
+  id?: number,
+  image: string | null,
   title: string,
   launchDate: Date,
   price: number,

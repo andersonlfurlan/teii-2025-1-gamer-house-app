@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { dateMask, priceMask, maskitoElement, parseDateMask } from 'src/app/core/constants/mask.constants';
 import { ApplicationValidators } from 'src/app/core/validators/url.validator';
 import { GameService } from '../services/game.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-form',
@@ -40,7 +41,8 @@ export class GameFormComponent implements OnInit {
 
 
   constructor(
-    private gameService: GameService
+    private gameService: GameService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -56,5 +58,6 @@ export class GameFormComponent implements OnInit {
     value.launchDate = parseDateMask(value.launchDate)
     console.log(value);
     this.gameService.add(value);
+    this.router.navigate(['/games']);
   }
 }

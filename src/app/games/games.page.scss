@@ -3,13 +3,16 @@ h2, h3, h4 {
   margin: 0.25rem;
 }
 
-ul {
+.platforms {
   list-style: none;
   padding-inline-start: 0;
-  padding-bottom: 1rem;
   margin: 0;
 }
 
 h2 {
   padding-top: 1rem;
+}
+
+.game-info {
+  padding-bottom: 0.75rem;
 }
