@@ -28,9 +28,10 @@
         }
       </ion-thumbnail>
       <ion-text class="game-info">
-        <h2>{{ game.title }}</h2>
+        <h2>{{game.id}} - {{ game.title }}</h2>
         <h3><strong>Categoria: </strong> {{ game.category }} </h3>
-        <h4><strong>Lançamento: </strong> {{game.launchDate | date: 'dd/MM/yyyy' }}</h4>
+        <h4><strong>Lançamento: </strong>
+          {{game.launchDate | date: 'dd/MM/yyyy' }}</h4>
         <h4><strong>Preço: </strong> {{game.price | currency: 'BRL' }}</h4>
         <h4><strong>Plataformas:</strong>
           <ul class="platforms">

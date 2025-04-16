@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { dateMask, priceMask, maskitoElement, parseDateMask } from 'src/app/core/constants/mask.constants';
+import { dateMask, priceMask, maskitoElement, parseDateMask, formatDateMask } from 'src/app/core/constants/mask.constants';
 import { ApplicationValidators } from 'src/app/core/validators/url.validator';
 import { GameService } from '../services/game.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,6 +38,7 @@ export class GameFormComponent implements OnInit {
     category: new FormControl('', Validators.required),
     platforms: new FormControl('', Validators.required)
   });
+  gameId!: number;
 
   constructor(
     private gameService: GameService,
@@ -46,11 +47,15 @@ export class GameFormComponent implements OnInit {
   ) {
     // this.activatedRoute.snapshot.paramMap.get('gameId');
     const gameId = parseInt(this.activatedRoute.snapshot.params['gameId']);
-    console.log('GameID: ', gameId);
-    const game = this.gameService.getById(gameId);
-    console.log('Game: ', game);
-    if (game) {
-      this.gameForm.patchValue(game);
+    if (gameId) {
+      const game = this.gameService.getById(gameId);
+      if (game) {
+        this.gameId = gameId;
+        if (game.launchDate instanceof Date) {
+          game.launchDate = formatDateMask(game.launchDate);
+        }
+        this.gameForm.patchValue(game);
+      }
     }
   }
 
@@ -64,9 +69,14 @@ export class GameFormComponent implements OnInit {
 
   save() {
     let { value } = this.gameForm;
-    value.launchDate = parseDateMask(value.launchDate)
+    if (value.launchDate) {
+      value.launchDate = parseDateMask(value.launchDate)
+    }
     console.log(value);
-    this.gameService.add(value);
+    this.gameService.save({
+      ...value,
+      id: this.gameId
+    });
     this.router.navigate(['/games']);
   }
 }

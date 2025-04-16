@@ -46,8 +46,31 @@ export class GameService {
     return [...this.gamesList];
   }
 
-  add(game: Game) {
-    this.gamesList = [...this.gamesList, game];
+  private add(game: Game) {
+    this.gamesList = [...this.gamesList, {
+      ...game,
+      id: this.getNextId()
+    }];
+  }
+
+  private getNextId(): number {
+    const maxId = this.gamesList.reduce((id, game) => {
+      if (!!game.id && game?.id > id) {
+        id = game.id;
+      }
+      return id;
+    }, 0);
+    return maxId + 1;
+  }
+
+  private update(updatedGame: Game) {
+    this.gamesList = this.gamesList.map(g => {
+      return (g.id === updatedGame.id) ? updatedGame : g;
+    });
+  }
+
+  save(game: Game) {
+    game.id ? this.update(game) : this.add(game);
   }
 
   remove(game: Game) {
