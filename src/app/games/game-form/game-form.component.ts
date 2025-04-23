@@ -4,6 +4,8 @@ import { dateMask, priceMask, maskitoElement, parseDateMask, formatDateMask } fr
 import { ApplicationValidators } from 'src/app/core/validators/url.validator';
 import { GameService } from '../services/game.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PlatformService } from '../services/platform.service';
+import { Platform } from '../models/platform.type';
 
 @Component({
   selector: 'app-game-form',
@@ -16,14 +18,6 @@ export class GameFormComponent implements OnInit {
   dateMask = dateMask;
   priceMask = priceMask;
   maskitoElement = maskitoElement;
-  platforms = [
-    'Playstation',
-    'Xbox',
-    'Nintendo Switch',
-    'Android',
-    'iOS',
-    'PC'
-  ]
 
   gameForm: FormGroup = new FormGroup({
     title: new FormControl('', [
@@ -39,13 +33,14 @@ export class GameFormComponent implements OnInit {
     platforms: new FormControl('', Validators.required)
   });
   gameId!: number;
+  platforms: Platform[] = []
 
   constructor(
     private gameService: GameService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) {
-    // this.activatedRoute.snapshot.paramMap.get('gameId');
+    private platformService: PlatformService,
+  ) {   // this.activatedRoute.snapshot.paramMap.get('gameId');
     const gameId = parseInt(this.activatedRoute.snapshot.params['gameId']);
     if (gameId) {
       const game = this.gameService.getById(gameId);
@@ -58,8 +53,19 @@ export class GameFormComponent implements OnInit {
       }
     }
   }
-
   ngOnInit() {
+    // this.platforms = this.platformService.getPlatforms();
+    this.platformService.getPlatforms().subscribe({
+      next: (data) => {
+        console.log('platforms: ', data);
+        this.platforms = data;
+      },
+      error: (error) => {
+        alert('Erro ao carregar plataformas.');
+        console.error(error)
+      },
+      // complete: () => { }
+    });
   }
 
   hasError(field: string, error: string) {

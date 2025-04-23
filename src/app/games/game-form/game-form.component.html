@@ -49,7 +49,7 @@
       <ion-item>
         <ion-select formControlName="platforms" label="Plataformas" label-placement="floating" multiple="true">
           @for(platform of platforms; track platform) {
-          <ion-select-option [value]="platform">{{platform}}</ion-select-option>
+            <ion-select-option [value]="platform">{{platform.name}}</ion-select-option>
           }
         </ion-select>
       </ion-item>

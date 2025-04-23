@@ -1,0 +1,24 @@
+{
+  "games": [],
+  "platforms": [
+    {
+      "id": "4c22",
+      "name": "Playstation 5",
+      "manufacture": "Sony"
+    },
+    {
+      "id": "059d",
+      "name": "Xbox",
+      "manufacture": "Microsoft"
+    },
+    {
+      "id": "99ea",
+      "name": "Nintendo Switch",
+      "manufacture": "Nintendo"
+    },
+    {
+      "id": "a09e",
+      "name": "PC"
+    }
+  ]
+}
