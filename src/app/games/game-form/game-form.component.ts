@@ -6,6 +6,7 @@ import { GameService } from '../services/game.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlatformService } from '../services/platform.service';
 import { Platform } from '../models/platform.type';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-game-form',
@@ -40,17 +41,25 @@ export class GameFormComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private platformService: PlatformService,
+    private toastController: ToastController
   ) {   // this.activatedRoute.snapshot.paramMap.get('gameId');
-    const gameId = parseInt(this.activatedRoute.snapshot.params['gameId']);
+    const gameId = this.activatedRoute.snapshot.params['gameId'];
     if (gameId) {
-      const game = this.gameService.getById(gameId);
-      if (game) {
-        this.gameId = gameId;
-        if (game.launchDate instanceof Date) {
-          game.launchDate = formatDateMask(game.launchDate);
+      this.gameService.getById(gameId).subscribe({
+        next: (game) => {
+          if (game) {
+            this.gameId = gameId;
+            if (game.launchDate instanceof Date) {
+              game.launchDate = formatDateMask(game.launchDate);
+            }
+            this.gameForm.patchValue(game);
+          }
+        },
+        error: (error) => {
+          alert('Erro ao carregar o jogo com id ' + gameId)
+          console.error(error);
         }
-        this.gameForm.patchValue(game);
-      }
+      });
     }
   }
   ngOnInit() {
@@ -68,6 +77,11 @@ export class GameFormComponent implements OnInit {
     });
   }
 
+  compareWith(o1: Platform | null, o2: Platform | null): boolean {
+    return o1 && o2 ? o1.id === o2.id : o1 === o2;
+  }
+
+
   hasError(field: string, error: string) {
     const formControl = this.gameForm.get(field);
     return formControl?.touched && formControl?.errors?.[error]
@@ -82,7 +96,18 @@ export class GameFormComponent implements OnInit {
     this.gameService.save({
       ...value,
       id: this.gameId
+    }).subscribe({
+      next: () => {
+        this.toastController.create({
+          message: 'Jogo salvo com sucesso!',
+          duration: 3000,
+        }).then(toast => toast.present());
+        this.router.navigate(['/games']);
+      },
+      error: (error) => {
+        alert('Erro ao salvar o jogo ' + value.title + '!');
+        console.error(error);
+      }
     });
-    this.router.navigate(['/games']);
   }
 }

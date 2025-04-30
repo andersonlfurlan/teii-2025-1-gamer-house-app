@@ -1,3 +1,5 @@
+import { Platform } from "./platform.type"
+
 export type Game = {
   id?: number,
   image: string | null,
@@ -5,5 +7,6 @@ export type Game = {
   launchDate: Date | string,
   price: number,
   category: string,
-  platforms: string[]
+  platforms: Platform[]
 }
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from './models/game.type';
 import { GameService } from './services/game.service';
-import { AlertController, ViewDidEnter, ViewDidLeave, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
+import { AlertController, ToastController, ViewDidEnter, ViewDidLeave, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 
 
 @Component({
@@ -18,6 +18,7 @@ export class GamesPage implements OnInit, ViewWillEnter,
   constructor(
     private gameService: GameService,
     private alertController: AlertController,
+    private toastController: ToastController,
   ) { }
 
   ionViewDidLeave(): void {
@@ -31,7 +32,16 @@ export class GamesPage implements OnInit, ViewWillEnter,
   }
   ionViewWillEnter(): void {
     console.log('ionViewWillEnter');
-    this.gamesList = this.gameService.getList();
+
+    this.gameService.getList().subscribe({
+      next: (response) => {
+        this.gamesList = response;
+      },
+      error: (error) => {
+        alert('Erro ao carregar lista de jogos');
+        console.error(error);
+      }
+    });
   }
 
   ngOnInit() { }
@@ -44,8 +54,22 @@ export class GamesPage implements OnInit, ViewWillEnter,
         {
           text: 'Sim',
           handler: () => {
-            this.gameService.remove(game);
-            this.gamesList = this.gameService.getList();
+            this.gameService.remove(game).subscribe({
+              next: (response) => {
+                this.gamesList = this.gamesList.filter(g => g.id !== response.id);
+                this.toastController.create({
+                  message: `Jogo ${game.title} excluído com sucesso!`,
+                  duration: 3000,
+                  color: 'secondary',
+                  keyboardClose: true,
+                }).then(toast => toast.present());
+              },
+              error: (error) => {
+                alert('Erro ao excluir o jogo ' + game.title);
+                console.error(error);
+              }
+            });
+            // this.gamesList = this.gameService.getList();
           }
         },
         'Não'

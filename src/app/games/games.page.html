@@ -36,7 +36,7 @@
         <h4><strong>Plataformas:</strong>
           <ul class="platforms">
             @for(platform of game.platforms; track platform) {
-            <li>{{platform}}</li>
+            <li>{{platform.name}} {{platform.manufacture ? '(' + platform.manufacture +')' : ''}}</li>
             }
           </ul>
         </h4>

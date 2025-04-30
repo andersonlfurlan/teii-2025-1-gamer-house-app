@@ -1,5 +1,85 @@
 {
-  "games": [],
+  "games": [
+    {
+      "id": "2",
+      "title": "Tetris",
+      "category": "plataforma",
+      "image": "https://m.media-amazon.com/images/I/61M3rDwh4qL._h1_.png",
+      "launchDate": "1986-08-13T00:00:00.000Z",
+      "platforms": [],
+      "price": 1
+    },
+    {
+      "id": "3",
+      "title": "Tetris",
+      "category": "plataforma",
+      "image": null,
+      "launchDate": "1986-08-13T00:00:00.000Z",
+      "platforms": [],
+      "price": 1
+    },
+    {
+      "id": "4",
+      "title": "Tetris",
+      "category": "plataforma",
+      "image": null,
+      "launchDate": "1986-08-13T00:00:00.000Z",
+      "platforms": [],
+      "price": 1
+    },
+    {
+      "id": "5",
+      "title": "Tetris",
+      "category": "plataforma",
+      "image": null,
+      "launchDate": "1986-08-13T00:00:00.000Z",
+      "platforms": [],
+      "price": 1
+    },
+    {
+      "title": "Super Mario 2",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnWkg0kaGR2SE4gTyWdSvkc6LX7vw7Gmg6TEHohnQ3zimuPscntOs0uQ&s",
+      "launchDate": "0430-01-20T03:00:00.000Z",
+      "price": "200,00",
+      "category": "2D, Arcade",
+      "platforms": [
+        {
+          "id": "4c22",
+          "name": "Playstation 5",
+          "manufacture": "Sony"
+        },
+        {
+          "id": "059d",
+          "name": "Xbox",
+          "manufacture": "Microsoft"
+        },
+        {
+          "id": "a09e",
+          "name": "PC"
+        }
+      ],
+      "id": "204e"
+    },
+    {
+      "title": "Super Mario 3",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnWkg0kaGR2SE4gTyWdSvkc6LX7vw7Gmg6TEHohnQ3zimuPscntOs0uQ&s",
+      "launchDate": "0120-04-04T03:00:00.000Z",
+      "price": "100,00",
+      "category": "2D",
+      "platforms": [
+        {
+          "id": "99ed",
+          "name": "Super Nintendo",
+          "manufacture": "Nintendo"
+        },
+        {
+          "id": "a09e",
+          "name": "PC"
+        }
+      ],
+      "id": "9578"
+    }
+  ],
   "platforms": [
     {
       "id": "4c22",
@@ -14,6 +94,11 @@
     {
       "id": "99ea",
       "name": "Nintendo Switch",
+      "manufacture": "Nintendo"
+    },
+    {
+      "id": "99ed",
+      "name": "Super Nintendo",
       "manufacture": "Nintendo"
     },
     {
