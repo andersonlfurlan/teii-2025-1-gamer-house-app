@@ -5,7 +5,7 @@ export type Game = {
   image: string | null,
   title: string,
   launchDate: Date | string,
-  price: number,
+  price: number | string,
   category: string,
   platforms: Platform[]
 }

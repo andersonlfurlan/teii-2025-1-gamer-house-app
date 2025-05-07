@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { dateMask, priceMask, maskitoElement, parseDateMask, formatDateMask } from 'src/app/core/constants/mask.constants';
+import { dateMask, priceMask, maskitoElement, parseDateMask, formatDateMask, parseNumberMask, formatNumberMask } from 'src/app/core/constants/mask.constants';
 import { ApplicationValidators } from 'src/app/core/validators/url.validator';
 import { GameService } from '../services/game.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlatformService } from '../services/platform.service';
 import { Platform } from '../models/platform.type';
 import { ToastController } from '@ionic/angular';
+import { maskitoParseNumber, maskitoStringifyNumber } from '@maskito/kit';
 
 @Component({
   selector: 'app-game-form',
@@ -52,6 +53,12 @@ export class GameFormComponent implements OnInit {
             if (game.launchDate instanceof Date) {
               game.launchDate = formatDateMask(game.launchDate);
             }
+            if (typeof game.launchDate === 'string') {
+              game.launchDate = formatDateMask(parseDateMask(game.launchDate, 'yyyy/mm/dd'));
+            }
+            if (game.price && typeof game.price === 'number') {
+              game.price = formatNumberMask(game.price);
+            }
             this.gameForm.patchValue(game);
           }
         },
@@ -91,6 +98,9 @@ export class GameFormComponent implements OnInit {
     let { value } = this.gameForm;
     if (value.launchDate) {
       value.launchDate = parseDateMask(value.launchDate)
+    }
+    if (value.price) {
+      value.price = parseNumberMask(value.price);
     }
     console.log(value);
     this.gameService.save({

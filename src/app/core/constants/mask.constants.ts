@@ -1,5 +1,10 @@
 import { MaskitoElementPredicate } from "@maskito/core";
-import { maskitoDateOptionsGenerator, maskitoNumberOptionsGenerator, maskitoParseDate, maskitoStringifyDate } from "@maskito/kit";
+import {
+  maskitoDateOptionsGenerator, maskitoNumberOptionsGenerator,
+  maskitoParseDate, maskitoStringifyDate,
+  maskitoParseNumber, maskitoStringifyNumber,
+  MaskitoDateMode,
+} from "@maskito/kit";
 
 const dateMask = maskitoDateOptionsGenerator({ mode: 'dd/mm/yyyy', separator: '/' });
 const priceMask = maskitoNumberOptionsGenerator({
@@ -12,12 +17,20 @@ const priceMask = maskitoNumberOptionsGenerator({
 const maskitoElement: MaskitoElementPredicate = async (el) =>
   (el as HTMLIonInputElement).getInputElement();
 
-const parseDateMask = (date: string) => {
-  return maskitoParseDate(date, {mode: 'dd/mm/yyyy'})
+const parseDateMask = (date: string, mode: MaskitoDateMode = 'dd/mm/yyyy') => {
+  return maskitoParseDate(date, { mode })
+}
+
+const parseNumberMask = (number: string) => {
+  return maskitoParseNumber(number, ',');
 }
 
 const formatDateMask = (date: Date) => {
-  return maskitoStringifyDate(date, {mode: 'dd/mm/yyyy', separator: '/'});
+  return maskitoStringifyDate(date, { mode: 'dd/mm/yyyy', separator: '/' });
+}
+
+const formatNumberMask = (number: number, precision = 2) => {
+  return maskitoStringifyNumber(number, { decimalSeparator: ',', precision })
 }
 
 export {
@@ -26,4 +39,6 @@ export {
   maskitoElement,
   parseDateMask,
   formatDateMask,
+  formatNumberMask,
+  parseNumberMask,
 }
